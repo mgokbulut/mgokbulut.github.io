@@ -285,11 +285,9 @@ function setup()
 function solveSimultaneousEquation(a,b,c,d,e,f)
 {
   // treat the inputs as decimal number which is string.
-
   // cramer's rule;
   steps.directPush("to find value of x and y:");
-  steps.directPush("Ax + By = C");
-  steps.directPush("Dx + Ey = F");
+  steps.directPush("Ax + By = C \nDx + Ey = F");
   steps.directPush("determinant = (A*E) - (B*D)");
   steps.assignQuestion(("((" + a + " * " + e + ")" + " - " + "(" + b + " * " + d + "))"));
   var determinant = simplifyCoefficient("((" + a + " * " + e + ")" + " - " + "(" + b + " * " + d + "))"); //a*d - b*c;
@@ -383,7 +381,7 @@ function solveSimultaneousEquation(a,b,c,d,e,f)
 
 function generateSimultaneousEquations1()
 {
-	var template1 = selectTemplate1();
+	var template1 = "Ax + By = C";
 	var newtemplate1 = "";
   var simplified_a = "";
   var simplified_b = "";
@@ -440,7 +438,7 @@ function generateSimultaneousEquations1()
 
 function generateSimultaneousEquations2()
 {
-  var template2 = selectTemplate2();
+  var template2 = "Dx + Ey = F";
   var newtemplate2 = "";
   var simplified_d = "";
   var simplified_e = "";
@@ -520,42 +518,26 @@ function gcd(x, y)
 function simplifyCoefficient(template)
 {
     calculations = calculationsOrder(template);
-
-    // işlem sayısına göre sortla !____________
     //calculations.sort(function(a, b){return a.length - b.length});
 
-    var sign = "";
     for(var i = 0 ; i < calculations.size() ; i++)
     {
-      var temp = "";
-      var firstNumber = "";
-      var secondNumber = "";
-      var check = false;
-      for(var j = 0; (check == false) ; j++)
+      var current = calculations.storage[i];
+      if(current.charAt(0) == '(')
       {
-        if(isNumber(calculations.storage[i].charAt(j)) == true)
-        {
-          firstNumber = firstNumber + calculations.storage[i].charAt(j);
-        }
-        else if (isSign(calculations.storage[i].charAt(j))==true)
-        {
-          check = true;
-          sign = calculations.storage[i].charAt(j);
-        }
+        var arr = getNumber(current,1);
       }
-      var check2 = false;
-      var x = j-1;
-      for(; check2 == false ;x++)
+      else
       {
-        if(isNumber(calculations.storage[i].charAt(x)) == true)
-        {
-          secondNumber = secondNumber + calculations.storage[i].charAt(x);
-        }
-        else if (calculations.storage[i].charAt(x) == ')')
-        {
-          check2 = true;
-        }
+        var arr = getNumber(current,0);
       }
+      var firstNumber = arr[0][0];
+      var sign = arr[1][0];
+      var secondNumber = arr[2][0];
+
+
+
+
 
       var changeSymbols = function(input)
       {
@@ -564,7 +546,7 @@ function simplifyCoefficient(template)
         return input;
       }
 
-      temp = makeCalculation(firstNumber, secondNumber, sign);
+      var temp = makeCalculation(firstNumber, secondNumber, sign);
       var temp2 = calculations.storage[i];
       steps.directPush(temp2 + " = " + changeSymbols(temp));
       steps.getCurrentStep(temp2);
@@ -580,6 +562,87 @@ function simplifyCoefficient(template)
     //
     var result = calculations.storage[calculations.size() - 1];
     return result;
+}
+
+function getNumber(template,i)
+{
+    var resultArray = [];
+    var check = false;
+    var indicator = 0;
+    resultArray[indicator] = [];
+
+    while(check == false)
+    {
+      if(resultArray[indicator][0] == null)
+      {
+        resultArray[indicator][0] = "";
+      }
+      if(resultArray[indicator][1] == null)
+      {
+        resultArray[indicator][1] = "";
+      }
+
+      if(template.charAt(i) == 'X' && template.charAt(i+1) == '^')
+      {
+        i += 2;
+        var check2 = false;
+        while (check2 == false)
+        {
+          if(isNumber(template.charAt(i)) == false)
+          {
+            check2 = true;
+          }
+          else
+          {
+            resultArray[indicator][1] += template.charAt(i);
+            i++;
+          }
+        }
+        i-=1;
+      }
+      else if(template.charAt(i) == 'X')
+      {
+        resultArray[indicator][1] = "1";
+      }
+      else if(isNumber(template.charAt(i)) == true)
+      {
+        resultArray[indicator][0] += template.charAt(i);
+      }
+      else if(isSign(template.charAt(i))==true)
+      {
+        resultArray[indicator][0] += template.charAt(i);
+        resultArray[indicator][1] = "sign";
+      }
+      else if(template.charAt(i) == " ")
+      {
+        indicator +=1;
+        resultArray[indicator] = [];
+      }
+
+      //end loop condition;
+      if(template.charAt(i) == "(" || template.charAt(i) == ")")
+      {
+        check = true;
+      }
+
+      if(i > template.length)
+      {
+        check = true;
+      }
+      i++;
+    }
+
+    // eger powerOfX i undefindsa, 1inci elemente "0" ata.
+    for(var j = 0; j < resultArray.length ; j++)
+    {
+      if(resultArray[j][1] == "")
+      {
+        resultArray[j][1] = "0";
+      }
+    }
+
+    resultArray[resultArray.length] = i;
+    return resultArray;
 }
 
 function calculationsOrder(template)
@@ -1258,82 +1321,6 @@ function calculationsOrder1(template)
   }
 
   return calculations;
-}
-
-function getNumber(template,i)
-{
-    var resultArray = [];
-    var check = false;
-    var indicator = 0;
-    resultArray[indicator] = [];
-
-    while(check == false)
-    {
-      if(resultArray[indicator][0] == null)
-      {
-        resultArray[indicator][0] = "";
-      }
-      if(resultArray[indicator][1] == null)
-      {
-        resultArray[indicator][1] = "";
-      }
-
-      if(template.charAt(i) == 'X' && template.charAt(i+1) == '^')
-      {
-        i += 2;
-        var check2 = false;
-        while (check2 == false)
-        {
-          if(isNumber(template.charAt(i)) == false)
-          {
-            check2 = true;
-          }
-          else
-          {
-            resultArray[indicator][1] += template.charAt(i);
-            i++;
-          }
-        }
-        i-=1;
-      }
-      else if(template.charAt(i) == 'X')
-      {
-        resultArray[indicator][1] = "1";
-      }
-      else if(isNumber(template.charAt(i)) == true)
-      {
-        resultArray[indicator][0] += template.charAt(i);
-      }
-      else if(isSign(template.charAt(i))==true)
-      {
-        resultArray[indicator][0] += template.charAt(i);
-        resultArray[indicator][1] = "sign";
-      }
-      else if(template.charAt(i) == " ")
-      {
-        indicator +=1;
-        resultArray[indicator] = [];
-      }
-
-      //end loop condition;
-      if(template.charAt(i) == "(" || template.charAt(i) == ")")
-      {
-        check = true;
-      }
-      i++;
-    }
-
-    // eger powerOfX i undefindsa, 1inci elemente "0" ata.
-    for(var j = 0; j < resultArray.length ; j++)
-    {
-      if(resultArray[j][1] == "")
-      {
-        resultArray[j][1] = "0";
-      }
-    }
-
-    resultArray[resultArray.length] = i;
-    return resultArray;
 }
 
 function questionToMathML(expression)
