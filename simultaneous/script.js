@@ -129,292 +129,34 @@ var solutionSteps = function()
       var myTable = document.getElementById('myTable');
       myTable.rows[j].cells[1].innerHTML = this.addSup(temp);
     }
-    $('#myTable').append('<tr><th>'+ order +'</th><th></th></tr>');
-    myTable.rows[this.stepsInOrder.length].cells[1].innerHTML = "anser = "+ this.addSup(temp).substring(1,this.addSup(temp).length-1);
   }
   this.activate = function()
   {
     this.lock = true;
   }
+  this.deactivate = function()
+  {
+    this.lock = false;
+  }
 }
 
-var check = true;
-var steps;
-
-var calculate = function()
+function realToSymbol(string)
 {
-  this.arr1;
-  this.arr2;
-  this.signImp;
-  this.result;
-  this.coefficients;
-
-  this.subtraction = function()
-  {
-    for(var i = 0 ; i <= this.arr2.length-2 ; i+=2)
-    {
-      this.arr2[i][0] = makeCalculation(this.arr2[i][0],"_1","*");
-    }
-    this.addition();
-  }
-  this.multiplication = function()
-  {
-    var temp = [];
-    var indicator = 0;
-    for(var i = 0 ; i <= this.arr1.length-2 ; i+=2)
-    {
-      for(var j = 0 ; j <= this.arr2.length-2 ; j+=2)
-      {
-        temp[indicator] = [];
-        temp[indicator][0] = makeCalculation(this.arr1[i][0],this.arr2[j][0],"*");
-        temp[indicator][1] = makeCalculation(this.arr1[i][1],this.arr2[j][1],"+");
-        indicator++;
-      }
-    }
-    steps.directPush(constructQuestion(this.arr1,this.arr2,this.signImp));
-    for(var k = 0; k<temp.length ; k++)
-    {
-      this.assignToCoefficients(temp,k);
-    }
-    this.prepareResult();
-  }
-  this.division = function()
-  {
-    var temp = [];
-    var indicator = 0;
-    if(this.arr2.length > 2)
-    {
-      check = false;
-    }
-    for(var i = 0 ; i <= this.arr1.length-2 ; i+=2)
-    {
-        temp[indicator] = [];
-        temp[indicator][0] = makeCalculation(this.arr1[i][0],this.arr2[0][0],"/");
-        temp[indicator][1] = makeCalculation(this.arr1[i][1],this.arr2[0][1],"-");
-        indicator++;
-    }
-
-    for(var k = 0; k<temp.length ; k++)
-    {
-      this.assignToCoefficients(temp,k);
-    }
-    this.prepareResult();
-  }
-  this.addition = function()
-  {
-    for(var i = 0 ; i <= this.arr1.length-2 ; i+=2)
-    {
-      this.assignToCoefficients(this.arr1,i);
-    }
-    for(var j = 0 ; j <= this.arr2.length-2 ; j+=2)
-    {
-      this.assignToCoefficients(this.arr2,j);
-    }
-    this.prepareResult();
-  }
-  this.assignToCoefficients = function(array,i)
-  {
-    if(array[i][1] == "_4")
-    {
-      if(this.coefficients.k == "")
-      {
-        this.coefficients.k = array[i][0];
-      }
-      else
-      {
-        this.coefficients.k = makeCalculation(this.coefficients.k,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "_3")
-    {
-      if(this.coefficients.j == "")
-      {
-        this.coefficients.j = array[i][0];
-      }
-      else
-      {
-        this.coefficients.j = makeCalculation(this.coefficients.j,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "_2")
-    {
-      if(this.coefficients.i == "")
-      {
-        this.coefficients.i = array[i][0];
-      }
-      else
-      {
-        this.coefficients.i = makeCalculation(this.coefficients.i,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "_1")
-    {
-      if(this.coefficients.h == "")
-      {
-        this.coefficients.h = array[i][0];
-      }
-      else
-      {
-        this.coefficients.h = makeCalculation(this.coefficients.h,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "0")
-    {
-      if(this.coefficients.g == "")
-      {
-        this.coefficients.g = array[i][0];
-      }
-      else
-      {
-        this.coefficients.g = makeCalculation(this.coefficients.g,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "1")
-    {
-      if(this.coefficients.f == "")
-      {
-        this.coefficients.f = array[i][0];
-      }
-      else
-      {
-        this.coefficients.f = makeCalculation(this.coefficients.f,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "2")
-    {
-      if(this.coefficients.e == "")
-      {
-        this.coefficients.e = array[i][0];
-      }
-      else
-      {
-        this.coefficients.e = makeCalculation(this.coefficients.e,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "3")
-    {
-      if(this.coefficients.d == "")
-      {
-        this.coefficients.d = array[i][0];
-      }
-      else
-      {
-        this.coefficients.d = makeCalculation(this.coefficients.d,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "4")
-    {
-      if(this.coefficients.c == "")
-      {
-        this.coefficients.c = array[i][0];
-      }
-      else
-      {
-        this.coefficients.c = makeCalculation(this.coefficients.c,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "5")
-    {
-      if(this.coefficients.b == "")
-      {
-        this.coefficients.b = array[i][0];
-      }
-      else
-      {
-        this.coefficients.b = makeCalculation(this.coefficients.b,array[i][0],"+");
-      }
-    }
-    else if(array[i][1] == "6")
-    {
-      if(this.coefficients.a == "")
-      {
-        this.coefficients.a = array[i][0];
-      }
-      else
-      {
-        this.coefficients.a = makeCalculation(this.coefficients.a,array[i][0],"+");
-      }
-    }
-    else
-    {
-      check = false;
-    }
-  }
-  this.prepareResult = function()
-  {
-    this.result += "(";
-
-    if(this.coefficients.a != "")
-    {
-      this.result = this.result + this.coefficients.a + "X^6 + ";
-    }
-    if(this.coefficients.b != "")
-    {
-      this.result = this.result + this.coefficients.b + "X^5 + ";
-    }
-    if(this.coefficients.c != "")
-    {
-      this.result = this.result + this.coefficients.c + "X^4 + ";
-    }
-    if(this.coefficients.d != "")
-    {
-      this.result = this.result + this.coefficients.d + "X^3 + ";
-    }
-    if(this.coefficients.e != "")
-    {
-      this.result = this.result + this.coefficients.e + "X^2 + ";
-    }
-    if(this.coefficients.f != "")
-    {
-      this.result = this.result + this.coefficients.f + "X + ";
-    }
-    if(this.coefficients.g != "")
-    {
-      this.result = this.result + this.coefficients.g + " + ";
-    }
-    if(this.coefficients.h != "")
-    {
-      this.result = this.result + this.coefficients.h + "X^_1 + ";
-    }
-    if(this.coefficients.i != "")
-    {
-      this.result = this.result + this.coefficients.i + "X^_2 + ";
-    }
-    if(this.coefficients.j != "")
-    {
-      this.result = this.result + this.coefficients.j + "X^_3 + ";
-    }
-    if(this.coefficients.k != "")
-    {
-      this.result = this.result + this.coefficients.k + "X^_4 + ";
-    }
-
-    this.result = this.result.substring(0,this.result.length-3);
-    this.result += ")";
-  }
-  this.assign_arr1 = function(input)
-  {
-    this.arr1 = input;
-  }
-  this.assign_arr2 = function(input)
-  {
-    this.arr2 = input;
-  }
-  this.assign_result = function(input)
-  {
-    this.result = input;
-  }
-  this.assign_coefficients = function(input)
-  {
-    this.coefficients = input;
-  }
-  this.assign_signImp = function(input)
-  {
-    this.signImp = input;
-  }
+  string = string.replace('/','$');
+  string = string.replace('-','_');
+  return string;
 }
 
-function main23()
+function symbolToReal(string)
+{
+  string = string.replace('$','/');
+  string = string.replace('_','-');
+  return string;
+}
+
+var steps = new solutionSteps();
+
+function main22()
 {
   try
   {
@@ -428,53 +170,88 @@ function main23()
 
 function setup()
 {
-
+	//Ax + By = C
+	//Dx + Ey = F
+  steps = new solutionSteps();
   var Parent = document.getElementById('myTable');
   while(Parent.hasChildNodes())
   {
      Parent.removeChild(Parent.firstChild);
   }
-  steps = new solutionSteps();
-  //$(questionText1).append('<math display="block" ><mrow class="beginning"></mrow></math>');
-  var bool = false;
-  while(bool == false)
+  var check = false;
+  var check2 = false;
+  while(check == false)
   {
-    check = true;
-    var question =  generateQuestion();
-    var questionFormated = changeFormat(question);
-    var ans = simplifyCoefficient(questionFormated);
-    if(check == true)
+    while(check2 == false)
     {
-      bool = true;
+      var abcANDnewtemplate1 = generateSimultaneousEquations1();
+      var defANDnewtemplate2 = generateSimultaneousEquations2();
+      var determinant = simplifyCoefficient("((" + abcANDnewtemplate1.simplified_a + " * " + defANDnewtemplate2.simplified_e + ")" + " - " + "(" + abcANDnewtemplate1.simplified_b + " * " + defANDnewtemplate2.simplified_d + "))"); //a*d - b*c;
+      if(validation(determinant,3) == true){check2 = true;}
     }
-    else
-    {
-        //console.log(question);
-    }
+
+    var solution = solveSimultaneousEquation(abcANDnewtemplate1.simplified_a,abcANDnewtemplate1.simplified_b,abcANDnewtemplate1.simplified_c,defANDnewtemplate2.simplified_d,defANDnewtemplate2.simplified_e,defANDnewtemplate2.simplified_f);
+    if(validation(solution.x,1) == true &&  validation(solution.y,1) == true){check = true;}
+    else{check2 = false;}
   }
-  question = '(' + question + ')';
-  document.getElementById('questionText3').innerHTML = question;
-  //question = "((((5$12x^2 / 13$2x) / (6x / 5x)) + ((8$4x + 5$1x) * (3x^2 / 5))) / (((15x^2 / 1) - (5x - 4)) * ((14x / 6$2) / (13x + 2$5))))";
-  question = question.replace(/x/g,"X");
 
-  var questionMathml = questionToMathML(question);//mathmlTranslator(question);
+  var equation1 = abcANDnewtemplate1.newtemplate1;
+  var equation2 = defANDnewtemplate2.newtemplate2;
+// up will be coming from database
 
-  $(document).ready(function() {
-  	 MathJax.Hub.Config({
-       mml2jax: {
-         preview: "mathml",
-         useMathMLspacing: true
-       }
-     });
-    var newmath = questionMathml;
-    var math = MathJax.Hub.getAllJax("questionText1")[0];//div name goes into input
-  	MathJax.Hub.Queue(["Text",math,newmath]);
-  });
-  question = question.substring(1,question.length-1);// takes out the last parenthesis and the first
+
   steps.activate();
-  steps.assignQuestion(questionFormated);
-  ans = simplifyCoefficient(questionFormated);
-  var ansMathml = answerToMathML(ans);
+  steps.directPush("for the first equation:");
+  steps.assignQuestion(equation1);
+  steps.directPush("for coefficient of x:");
+  simplifyCoefficient(abcANDnewtemplate1.a);
+  var a_mathml = questionToMathML(abcANDnewtemplate1.a);
+  a_mathml = a_mathml.replace('<math xmlns="http://www.w3.org/1998/Math/MathML">','');
+  a_mathml = a_mathml.replace('</math>','');
+  steps.directPush("for coefficient of y:");
+  simplifyCoefficient(abcANDnewtemplate1.b);
+  var b_mathml = questionToMathML(abcANDnewtemplate1.b);
+  b_mathml = b_mathml.replace('<math xmlns="http://www.w3.org/1998/Math/MathML">','');
+  b_mathml = b_mathml.replace('</math>','');
+  steps.directPush("for the last bit:");
+  simplifyCoefficient(abcANDnewtemplate1.c);
+  var c_mathml = questionToMathML(abcANDnewtemplate1.c);
+  c_mathml= c_mathml.replace('<math xmlns="http://www.w3.org/1998/Math/MathML">','');
+  c_mathml=c_mathml.replace('</math>','');
+
+  steps.directPush("---------------------------------");
+
+  steps.directPush("for the second equation:");
+  steps.assignQuestion(equation2);
+  steps.directPush("for coefficient of x:");
+  simplifyCoefficient(defANDnewtemplate2.d);
+  var d_mathml = questionToMathML(defANDnewtemplate2.d);
+  d_mathml=d_mathml.replace('<math xmlns="http://www.w3.org/1998/Math/MathML">','');
+  d_mathml=d_mathml.replace('</math>','');
+  steps.directPush("for coefficient of y:");
+  simplifyCoefficient(defANDnewtemplate2.e);
+  var e_mathml = questionToMathML(defANDnewtemplate2.e);
+  e_mathml=e_mathml.replace('<math xmlns="http://www.w3.org/1998/Math/MathML">','');
+  e_mathml=e_mathml.replace('</math>','');
+  steps.directPush("for the last bit:");
+  simplifyCoefficient(defANDnewtemplate2.f);
+  var f_mathml = questionToMathML(defANDnewtemplate2.f);
+  f_mathml=f_mathml.replace('<math xmlns="http://www.w3.org/1998/Math/MathML">','');
+  f_mathml=f_mathml.replace('</math>','');
+
+
+  steps.directPush("---------------------------------");
+  solveSimultaneousEquation(abcANDnewtemplate1.simplified_a,abcANDnewtemplate1.simplified_b,abcANDnewtemplate1.simplified_c,defANDnewtemplate2.simplified_d,defANDnewtemplate2.simplified_e,defANDnewtemplate2.simplified_f);
+
+  steps.printToConsole();
+
+  solution.x = solution.x.replace("$","/");
+  solution.x = solution.x.replace("_","-");
+  solution.y = solution.y.replace("$","/");
+  solution.y = solution.y.replace("_","-");
+
+  var equation1mathml = '<math xmlns="http://www.w3.org/1998/Math/MathML">' + a_mathml+ '<mi>x</mi><mo>+</mo>' + b_mathml +'<mi>y</mi><mo>=</mo>'+ c_mathml+ '</math>';
+  var equation2mathml = '<math xmlns="http://www.w3.org/1998/Math/MathML">' + d_mathml+ '<mi>x</mi><mo>+</mo>' + e_mathml +'<mi>y</mi><mo>=</mo>'+ f_mathml+ '</math>';
 
   $(document).ready(function() {
      MathJax.Hub.Config({
@@ -483,243 +260,333 @@ function setup()
          useMathMLspacing: true
        }
      });
-    var newmath = ansMathml;
+    var newmath = equation1mathml;
+    var math = MathJax.Hub.getAllJax("questionText1")[0];//div name goes into input
+    MathJax.Hub.Queue(["Text",math,newmath]);
+  });
+
+  $(document).ready(function() {
+     MathJax.Hub.Config({
+       mml2jax: {
+         preview: "mathml",
+         useMathMLspacing: true
+       }
+     });
+    var newmath = equation2mathml;
     var math = MathJax.Hub.getAllJax("questionText2")[0];//div name goes into input
     MathJax.Hub.Queue(["Text",math,newmath]);
   });
-  var ansarr = getNumber(ans,1);
-  /*for (var i = 0; i < ansarr.length; i+=2)
-  {
-    if(ansarr[i][0].length > 5)
-    {
-      document.getElementById('questionText4').innerHTML = "rest in peace";
-    }
-  }*/
 
-steps.printToConsole();
+  document.getElementById("answerText2").innerHTML = solution.y;
+  document.getElementById("answerText1").innerHTML = solution.x;
+
+}
+
+function solveSimultaneousEquation(a,b,c,d,e,f)
+{
+  // treat the inputs as decimal number which is string.
+
+  // cramer's rule;
+  steps.directPush("to find value of x and y:");
+  steps.directPush("Ax + By = C");
+  steps.directPush("Dx + Ey = F");
+  steps.directPush("determinant = (A*E) - (B*D)");
+  steps.assignQuestion(("((" + a + " * " + e + ")" + " - " + "(" + b + " * " + d + "))"));
+  var determinant = simplifyCoefficient("((" + a + " * " + e + ")" + " - " + "(" + b + " * " + d + "))"); //a*d - b*c;
+  steps.directPush("determinant = " + determinant);
+
+  steps.directPush("-------------------------------------");
+
+  var determinant = realToSymbol(determinant);
+  var x = "";
+  var y = "";
+  if(determinant != '0')
+  {
+     steps.directPush("for x:");
+     steps.directPush("x = (e*d - b*f)/determinant");
+     steps.assignQuestion(("(((" + c + " * " + e + ")" + " - " + "(" + b + " * " + f + "))" + " / " + determinant + ")"));
+     x =  simplifyCoefficient("(((" + c + " * " + e + ")" + " - " + "(" + b + " * " + f + "))" + " / " + determinant + ")"); //(e*d - b*f)/determinant;
+     steps.directPush("x = " + x);
+
+     steps.directPush("-------------------------------------");
+
+     steps.directPush("for y:");
+     steps.directPush("y = (a*f - e*c)/determinant");
+     steps.assignQuestion(("(((" + a + " * " + f + ")" + " - " + "(" + c + " * " + d + "))" + " / " + determinant + ")"));
+     y = simplifyCoefficient("(((" + a + " * " + f + ")" + " - " + "(" + c + " * " + d + "))" + " / " + determinant + ")");//(a*f - e*c)/determinant;
+     steps.directPush("y = " + y);
+
+     if(x == "0" || y == "0" || x.charAt(x.indexOf("/")+1) == '0' || y.charAt(y.indexOf("/")+1) == '0')
+     {x = "10000";y="10000";}
+  } else
+  {
+      x = "10000";// making sure that validation will return false so that the function will be called with different imputs.
+      y = "10000";
+      //"Cramer equations system: determinant is zero."
+      //"there are either no solutions or many solutions exist."
+  }
+
+  /*
+
+  var a1 = a;
+  var y = "";
+  var x = "";
+
+  a = simplifyCoefficient("(" + a + " * " + d + ")");
+  b = simplifyCoefficient("(" + b + " * " + d + ")");
+  c = simplifyCoefficient("(" + c + " * " + d + ")");
+
+  d = simplifyCoefficient("(" + d + " * " + a1 + ")");
+  e = simplifyCoefficient("(" + e + " * " + a1 + ")");
+  f = simplifyCoefficient("(" + f + " * " + a1 + ")");
+
+  a = realToSymbol(a);
+  b = realToSymbol(b);
+  c = realToSymbol(c);
+  d = realToSymbol(d);
+  e = realToSymbol(e);
+  f = realToSymbol(f);
+
+  /*
+  a=a*d;
+  b=b*d;
+  c=c*d;
+
+  d=d*a1;
+  e=e*a1;
+  f=f*a1;
+  */
+  /*
+  var afloat = toFloat(a);
+  var dfloat = toFloat(d);
+  var steps = 0;
+
+  if((afloat<0 && dfloat >0) || (afloat>0 && dfloat<0))
+  {
+    y = simplifyCoefficient("((" + c + " + " + f + ")" + " / "+ "(" + b + " + " + e + "))");
+    //y=(c+f)/(b+e);
+  }
+  if((afloat<0 && dfloat <0) || (afloat>0 && dfloat>0))
+  {
+    y = simplifyCoefficient("((" + c + " - " + f + ")" + " / "+ "(" + b + " - " + e + "))");
+    //y=(c-f)/(b-e);
+  }
+
+  x = simplifyCoefficient("((" + c + " - " + "(" + b + " * " + y +")) / " + a + ")");
+  //x=((c-(b*y))/a);
+
+  */
+
+  xAndy = {x,y}
+  return xAndy;
+}
+
+function generateSimultaneousEquations1()
+{
+	var template1 = selectTemplate1();
+	var newtemplate1 = "";
+  var simplified_a = "";
+  var simplified_b = "";
+  var simplified_c = "";
+
+  var check = false;
+
+  while(check == false)
+  {
+    var a = selectCoefficient();
+    if(validation(simplifyCoefficient(a),0) == true){check = true;}
+  }
+  check = false;
+  while(check == false)
+  {
+    var b = selectCoefficient();
+    if(validation(simplifyCoefficient(b),0) == true){check = true;}
+  }
+  check = false;
+  while(check == false)
+  {
+    var c = selectCoefficient();
+    if(validation(simplifyCoefficient(c),2) == true){check = true;}
+  }
+  //end of the validation
+
+	for(var i = 0 ; i < template1.length ; i++)
+	{
+		if(template1.charAt(i) == 'A')
+		{
+			newtemplate1 = newtemplate1 + a;
+		}
+		else if(template1.charAt(i) == 'B')
+		{
+			newtemplate1 = newtemplate1 + b;
+		}
+		else if(template1.charAt(i) == 'C')
+		{
+			newtemplate1 = newtemplate1 + c;
+		}
+		else
+		{
+			newtemplate1 = newtemplate1 + template1.charAt(i);
+		}
+	}
+
+  steps.assignQuestion(newtemplate1);
+  simplified_a = simplifyCoefficient(a);
+  simplified_b = simplifyCoefficient(b);
+  simplified_c = simplifyCoefficient(c);
+  var abcANDnewtemplate1 = {a, b, c, simplified_a, simplified_b, simplified_c, newtemplate1};
+  return abcANDnewtemplate1;
+}
+
+function generateSimultaneousEquations2()
+{
+  var template2 = selectTemplate2();
+  var newtemplate2 = "";
+  var simplified_d = "";
+  var simplified_e = "";
+  var simplified_f = "";
+
+  var check = false;
+
+  while(check == false)
+  {
+    var d = selectCoefficient();
+    if(validation(simplifyCoefficient(d),0) == true){check = true;}
+  }
+  check = false;
+  while(check == false)
+  {
+    var e = selectCoefficient();
+    if(validation(simplifyCoefficient(e),0) == true){check = true;}
+  }
+  check = false;
+  while(check == false)
+  {
+    var f = selectCoefficient();
+    if(validation(simplifyCoefficient(f),2) == true){check = true;}
+  }
+  //end of the validation
+  for(var i = 0 ; i < template2.length ; i++)
+	{
+		if(template2.charAt(i) == 'D')
+		{
+			newtemplate2 = newtemplate2 + d;
+		}
+		else if(template2.charAt(i) == 'E')
+		{
+			newtemplate2 = newtemplate2 + e;
+		}
+		else if(template2.charAt(i) == 'F')
+		{
+			newtemplate2 = newtemplate2 + f;
+		}
+		else
+		{
+			newtemplate2 = newtemplate2 + template2.charAt(i);
+		}
+	}
+
+  // buralara ekleme lazım alooo  // buralara ekleme lazım alooo
+  // buralara ekleme lazım alooo
+  // buralara ekleme lazım alooo  // buralara ekleme lazım alooo
+  // buralara ekleme lazım alooo
+  // buralara ekleme lazım alooo
+  // buralara ekleme lazım alooo
+  // buralara ekleme lazım alooo
+  steps.question = newtemplate2;
+  simplified_d = simplifyCoefficient(d);
+  simplified_e = simplifyCoefficient(e);
+  simplified_f = simplifyCoefficient(f);
+
+  var defANDnewtemplate2 = {d, e, f, simplified_d, simplified_e, simplified_f, newtemplate2};
+  return defANDnewtemplate2;
+}
+
+function gcd(x, y)
+{
+  if ((typeof x !== 'number') || (typeof y !== 'number'))
+    return false;
+  x = Math.abs(x);
+  y = Math.abs(y);
+  while(y)
+  {
+    var t = y;
+    y = x % y;
+    x = t;
+  }
+  return x;
 }
 
 function simplifyCoefficient(template)
 {
-  var calculations = calculationsOrder(template);
+    calculations = calculationsOrder(template);
 
-  for(var i = 0 ; i < calculations.length ; i++)
-  {
-    //----temp will be equal to the result from select path----
-    // replacing the old array with new result. ------------------
-    var temp = selectPath(calculations[i]);
-    var temp2 = calculations[i];
-    steps.getCurrentStep(temp2)
-    steps.directPush(temp2 + " = " + temp);
-    steps.push(temp);
+    // işlem sayısına göre sortla !____________
+    //calculations.sort(function(a, b){return a.length - b.length});
 
-    for(var z = 0; z < calculations.length ; z++)
+    var sign = "";
+    for(var i = 0 ; i < calculations.size() ; i++)
     {
-      var temp3 = calculations[z];
-      temp3 = temp3.replace(temp2.toString(), temp.toString());
-      calculations[z] = temp3.toString();
-    }
-    // replacing the old array with new result. ------------------
-  }
-
-  var result = calculations[calculations.length - 1];
-  return result;
-}
-
-function selectPath(template)
-{
-  //var template = "((892 + 31X - 22X^333 * 31X^3) + (82 + 3X - 2X^3 * 2X^2))";
-  // (ax^6 + bx^5 + cx^4 + dx^3 + ex^2 + fx + g + hx^-1 + ix^-2 + jx^-3 + kx^-4)
-  var result = "";
-  var coefficients =
-  {
-    a:"",
-    b:"",
-    c:"",
-    d:"",
-    e:"",
-    f:"",
-    g:"",
-    h:"",
-    i:"",
-    j:"",
-    k:""
-  }
-
-  var getArrays = function(template)
-  {
-    var i = 0;
-    var bool = false;
-    //getting the first array and the second array//
-    while (bool == false)
-    {
-        if(isNumber(template.charAt(i)) == true)
+      var temp = "";
+      var firstNumber = "";
+      var secondNumber = "";
+      var check = false;
+      for(var j = 0; (check == false) ; j++)
+      {
+        if(isNumber(calculations.storage[i].charAt(j)) == true)
         {
-          bool = true;
+          firstNumber = firstNumber + calculations.storage[i].charAt(j);
         }
-        else
+        else if (isSign(calculations.storage[i].charAt(j))==true)
         {
-          i++;
+          check = true;
+          sign = calculations.storage[i].charAt(j);
         }
+      }
+      var check2 = false;
+      var x = j-1;
+      for(; check2 == false ;x++)
+      {
+        if(isNumber(calculations.storage[i].charAt(x)) == true)
+        {
+          secondNumber = secondNumber + calculations.storage[i].charAt(x);
+        }
+        else if (calculations.storage[i].charAt(x) == ')')
+        {
+          check2 = true;
+        }
+      }
+
+      var changeSymbols = function(input)
+      {
+        input = input.replace("$","/");
+        input = input.replace("_","-");
+        return input;
+      }
+
+      temp = makeCalculation(firstNumber, secondNumber, sign);
+      var temp2 = calculations.storage[i];
+      steps.directPush(temp2 + " = " + changeSymbols(temp));
+      steps.getCurrentStep(temp2);
+      steps.push(temp);
+      for(var z = 0; z < calculations.size() ; z++)
+      {
+        var temp3 = calculations.storage[z];
+        temp3 = temp3.replace(temp2.toString(), temp.toString());
+        calculations.storage[z] = temp3.toString();
+      }
     }
 
-    var arr1 = getNumber(template,i);
-    i = arr1[arr1.length-1];
-
-    bool = false;
-
-    while(bool == false)
-    {
-      if(isSign(template.charAt(i)) == true)
-      {
-        var signImp = template.charAt(i);
-        i += 2;
-      }
-      if(signImp != null && isNumber(template.charAt(i)) == true)
-      {
-        bool = true;
-      }
-      else
-      {
-          i++;
-      }
-    }
-    var arr2 = getNumber(template, i);
-    var result = {arr1,arr2,signImp};
+    //
+    var result = calculations.storage[calculations.size() - 1];
     return result;
-  }
-
-  var getArray = getArrays(template);
-  var arr1 = getArray.arr1;
-  var arr2 = getArray.arr2;
-  var signImp = getArray.signImp;
-
-  var eliminateMinus = function(array)
-  {
-    for(var i = 1 ; i <= array.length-2 ; i+=2)
-    {
-      if(array[i][1] == "-")
-      {
-        array[i+1][0] = makeCalculation(array[i+1][0],"_1","*");
-        array[i][1] = "+";
-      }
-      if(array[i][1] == "*" || array[i][1] == "/")
-      {
-        console.log("there should be an error");
-      }
-    }
-    return array;
-  }
-
-  arr1 = eliminateMinus(arr1);
-  arr2 = eliminateMinus(arr2);
-  calc = new calculate();
-  calc.assign_arr1(arr1);
-  calc.assign_arr2(arr2);
-  calc.assign_result(result);
-  calc.assign_coefficients(coefficients);
-  calc.assign_signImp(signImp);
-
-  if(signImp == "-")
-  {
-    calc.subtraction();
-  }
-  else if(signImp == "+")
-  {
-    calc.addition();
-  }
-  else if(signImp == "*")
-  {
-    calc.multiplication();
-  }
-  else if(signImp == "/")
-  {
-    calc.division();
-  }
-  return calc.result;
-}
-
-function getNumber(template,i)
-{
-    var resultArray = [];
-    var check = false;
-    var indicator = 0;
-    resultArray[indicator] = [];
-
-    while(check == false)
-    {
-      if(resultArray[indicator][0] == null)
-      {
-        resultArray[indicator][0] = "";
-      }
-      if(resultArray[indicator][1] == null)
-      {
-        resultArray[indicator][1] = "";
-      }
-
-      if(template.charAt(i) == 'X' && template.charAt(i+1) == '^')
-      {
-        i += 2;
-        var check2 = false;
-        while (check2 == false)
-        {
-          if(isNumber(template.charAt(i)) == false)
-          {
-            check2 = true;
-          }
-          else
-          {
-            resultArray[indicator][1] += template.charAt(i);
-            i++;
-          }
-        }
-        i-=1;
-      }
-      else if(template.charAt(i) == 'X')
-      {
-        resultArray[indicator][1] = "1";
-      }
-      else if(isNumber(template.charAt(i)) == true)
-      {
-        resultArray[indicator][0] += template.charAt(i);
-      }
-      else if(isSign(template.charAt(i))==true)
-      {
-        resultArray[indicator][0] += template.charAt(i);
-        resultArray[indicator][1] = "sign";
-      }
-      else if(template.charAt(i) == " ")
-      {
-        indicator +=1;
-        resultArray[indicator] = [];
-      }
-
-      //end loop condition;
-      if(template.charAt(i) == "(" || template.charAt(i) == ")")
-      {
-        check = true;
-      }
-      i++;
-    }
-
-    // eger powerOfX i undefindsa, 1inci elemente "0" ata.
-    for(var j = 0; j < resultArray.length ; j++)
-    {
-      if(resultArray[j][1] == "")
-      {
-        resultArray[j][1] = "0";
-      }
-    }
-
-    resultArray[resultArray.length] = i;
-    return resultArray;
 }
 
 function calculationsOrder(template)
 {
   var stackOfParentheses = new Stack();
   var stackOfIndexes = new Stack();
-  var calculations = [];
+  var calculations = new Stack();
 
   for(var i = 0 ; i < template.length ; i++)
   {
@@ -735,39 +602,91 @@ function calculationsOrder(template)
       stackOfParentheses.pop();
     }
   }
+  return calculations;
 
-  //------to get rid of the expressions inside of the parenthesis so we will end up with only the calculations.
-  let tempArray = calculations.slice(0);
-  var count = 0;
+  /*
+  var openBracketsIndex = [];
+  var closedBracketsIndex = [];
+  var cordinatesOftheCalculations = [];
+  var calculations = [];
+  var currentOpenBrackets = 0;
+  var currentClosedBrackets = 0;
 
-  for(var j = 0; j<tempArray.length ; j++)
+  for(var i = 0 ; i < template.length ; i++)
   {
-    var temp = tempArray[j];
-    var check = false;
-
-    for(var k = 0; k < temp.length;k++)
+    var temp = template.charAt(i);
+    if(temp == '(')
     {
-      if(isSign(temp.charAt(k)) == true)
-      {
-        check = true;
-      }
+      openBracketsIndex[currentOpenBrackets] = i;
+      currentOpenBrackets ++;
     }
-
-    if(check == false)
+    else if(temp == ')')
     {
-      calculations.splice(j-count,1);
-      count++;
+      closedBracketsIndex[currentClosedBrackets] = i;
+      currentClosedBrackets ++;
     }
   }
 
-  return calculations;
+  //putting indexes into array
+  //(((8 + 5) + (7 + 6)) + (7+2)) + (8 +3)
+
+  var check = false;
+  var j = 0;
+  while(check == false)
+  {
+
+    var greatest = 0;
+    for(var z = 0 ; z <openBracketsIndex.length ; z++)
+    {
+      if(closedBracketsIndex[0]>openBracketsIndex[z])
+      {
+          greatest = openBracketsIndex[z];
+      }
+    }
+    var firstCoordinate = greatest;
+    var index = openBracketsIndex.indexOf(greatest);
+    firstCoordinate = firstCoordinate.toString();
+    var secondCoordinate = closedBracketsIndex[0];
+    secondCoordinate = secondCoordinate.toString();
+    cordinatesOftheCalculations[j] = "(" + firstCoordinate + " - " + secondCoordinate + ")";
+    calculations[j] = template.substring(greatest,parseInt(secondCoordinate) + 1);
+    // remove the bits
+    openBracketsIndex.splice(index, 1);
+    closedBracketsIndex.splice(0, 1);
+    j++;
+
+    if(openBracketsIndex.length == 0 && closedBracketsIndex.length == 0)
+    {
+      check = true;
+    }
+
+  }
+  */
+}
+
+function isSign(character)
+{
+  var check = false;
+  if(character == '+' || character == '*' || character == '-' || character == '/' )
+  {
+    check = true;
+  }
+  return check;
+}
+
+function isNumber(character)
+{
+  var check = false;
+  if(character == '_' || character == '$'|| character == '.' || character == '0' || character == '1' || character == '2' || character == '3' || character == '4' || character == '5' || character == '6' || character == '7' || character == '8' || character == '9')
+  {
+    check = true;
+  }
+  return check;
 }
 
 function makeCalculation(number1, number2, sign)
 {
   // assuming number1 and 2 are string
-  //if(typeof number1 === 'number'){number1 = number1.toString();}
-  //if(typeof number2 === 'number'){number2 = number2.toString();}
   if(number1.indexOf('_') != -1)
   {
     number1 = number1.replace("_","-");
@@ -1209,154 +1128,219 @@ function makeCalculation(number1, number2, sign)
   return product;
 }
 
-function gcd(x, y)
+function validation(number,choice)
 {
-  if ((typeof x !== 'number') || (typeof y !== 'number'))
-    return false;
-  x = Math.abs(x);
-  y = Math.abs(y);
-  while(y)
+  //treat number as string
+  var toFloat = function(decimal)
   {
-    var t = y;
-    y = x % y;
-    x = t;
-  }
-  return x;
-}
-
-function realToSymbol(string)
-{
-  for(var i = 0 ; i < string.length ; i++)
-  {
-    string = string.replace('/','$');
-    string = string.replace('-','_');
-  }
-  return string;
-}
-
-function symbolToReal(string)
-{
-  for(var i = 0 ; i < string.length ; i++)
-  {
-    string = string.replace('$','/');
-    string = string.replace('_','-');
-  }
-
-  return string;
-}
-
-function changeFormat(question)
-{
-  //changes format of the question so that the program can analyze and simplify the generated question.
-  var formatedQuestion = "";
-
-  for(var i = 0 ; i < question.length ; i++)
-  {
-    if(isNumber(question.charAt(i)) == true)
+    var float= 0.0;
+    if(decimal.indexOf('/') != -1)
     {
-      formatedQuestion += "(";
-      var check = false;
-      while(check == false)
-      {
-        if(question.charAt(i+1) == " " || question.charAt(i+1) == ")")
-        {
-          check = true;
-        }
-        formatedQuestion += question.charAt(i);
-        i++;
-      }
-      formatedQuestion += ")" + question.charAt(i);
+    var number1 = parseInt(decimal.substring(0,decimal.indexOf('/')))
+    var number2 = parseInt(decimal.substring(decimal.indexOf('/')+1, decimal.length));
+    float = number1 / number2;
     }
     else
     {
-      formatedQuestion += question.charAt(i);
+    float = parseInt(decimal);
     }
+    return float;
   }
-  formatedQuestion = formatedQuestion.replace(/x/g,"X");
-  formatedQuestion = "(" + formatedQuestion + ")";
-  return formatedQuestion;
-}
-
-function isSign(character)
-{
-  var check = false;
-  if(character == '+' || character == '*' || character == '-' || character == '/' )
+  number = number.replace("$","/");
+  number = number.replace("_","");
+  number = number.replace("-","");
+  var float = toFloat(number);
+  if(choice == 0 || choice == 2)
   {
-    check = true;
+    if(float > 50.0 || float < -50.0 || float == 0){return false;}
   }
-  return check;
-}
 
-function isNumber(character)
-{
-  var check = false;
-  if(character == '_' || character == '$'|| character == '.' || character == '0' || character == '1' || character == '2' || character == '3' || character == '4' || character == '5' || character == '6' || character == '7' || character == '8' || character == '9')
+  if(choice == 0 ||choice == 2)
   {
-    check = true;
-  }
-  return check;
-}
-
-function constructQuestion(arr1,arr2,signImp)
-{
-  var question = "((";
-  for (var i = 0; i < arr1.length-1; i++)
-  {
-    if(i%2 == 0)//if it is even
+    if(number.indexOf("/") != -1)
     {
-      question += arr1[i][0];
-      if(arr1[i][1] != "0")
-      {
-        if(arr1[i][1] == "1")
-        {
-          question += "X";
-        }
-        else
-        {
-         question += "X^" + arr1[i][1];
-        }
-      }
+      var temp1 = number.substring(0,number.indexOf("/"));
+      var temp2 = number.substring(number.indexOf("/")+1,number.length);
+      var intTemp2 = parseInt(temp2);
+      if(intTemp2 > 20){return false;}
+      if(temp1.length > 2){return false;}
+      if(temp2.length > 2){return false;}
     }
     else
     {
-      question += " " + arr1[i][0] + " ";
+      if(number.length>2){return false;}
     }
   }
-
-  question += ") " + signImp + " (";
-
-  for (var j = 0; j < arr2.length-1; j++)
+  if(choice == 2)
   {
-    if(j%2 == 0)//if it is even
+    var temp2 = number.substring(number.indexOf("/")+1,number.length);
+    var intTemp2 = parseInt(temp2);
+    if(intTemp2 > 10){return false;}
+  }
+  if(choice == 3)
+  {
+    if(number.indexOf("/") != -1)
     {
-      question += arr2[j][0];
-      if(arr2[j][1] != "0")
-      {
-        if(arr2[j][1] == "1")
-        {
-          question += "X";
-        }
-        else
-        {
-         question += "X^" + arr2[j][1];
-        }
-      }
+      var temp1 = number.substring(0,number.indexOf("/"));
+      var temp2 = number.substring(number.indexOf("/")+1,number.length);
+      var float = simplifyCoefficient("(" + temp1 + " / " + temp2 + ")");
+      if(float > 50 || float < -51 || float == 0){return false;}
+      if(temp1.length > 3){return false;}
+      if(temp2.length > 3){return false;}
     }
     else
     {
-      question += " " + arr2[j][0] + " ";
+      var integer = parseInt(number);
+      if(integer > 50){return false;}
+    }
+  }
+  if(choice == 1)
+  {
+    if(number.indexOf("/") != -1)
+    {
+      var temp1 = number.substring(0,number.indexOf("/"));
+      var temp2 = number.substring(number.indexOf("/")+1,number.length);
+      if(temp1.length > 3){return false;}
+      if(temp2.length > 3){return false;}
+    }
+    else
+    {
+      if(number.length > 3){return false;}
     }
   }
 
-  question += "))";
-  return question;
+  return true;
+}
+
+function calculationsOrder1(template)
+{
+  var stackOfParentheses = new Stack();
+  var stackOfIndexes = new Stack();
+  var calculations = [];
+
+  for(var i = 0 ; i < template.length ; i++)
+  {
+    if(template.charAt(i) == "(")
+    {
+      stackOfParentheses.push(template.charAt(i));
+      stackOfIndexes.push(i);
+    }
+    if(template.charAt(i) == ")")
+    {
+      calculations.push(template.substring(stackOfIndexes.peek(),i+1));
+      stackOfIndexes.pop();
+      stackOfParentheses.pop();
+    }
+  }
+
+  //------to get rid of the expressions inside of the parenthesis so we will end up with only the calculations.
+  let tempArray = calculations.slice(0);
+  var count = 0;
+
+  for(var j = 0; j<tempArray.length ; j++)
+  {
+    var temp = tempArray[j];
+    var check = false;
+
+    for(var k = 0; k < temp.length;k++)
+    {
+      if(isSign(temp.charAt(k)) == true)
+      {
+        check = true;
+      }
+    }
+
+    if(check == false)
+    {
+      calculations.splice(j-count,1);
+      count++;
+    }
+  }
+
+  return calculations;
+}
+
+function getNumber(template,i)
+{
+    var resultArray = [];
+    var check = false;
+    var indicator = 0;
+    resultArray[indicator] = [];
+
+    while(check == false)
+    {
+      if(resultArray[indicator][0] == null)
+      {
+        resultArray[indicator][0] = "";
+      }
+      if(resultArray[indicator][1] == null)
+      {
+        resultArray[indicator][1] = "";
+      }
+
+      if(template.charAt(i) == 'X' && template.charAt(i+1) == '^')
+      {
+        i += 2;
+        var check2 = false;
+        while (check2 == false)
+        {
+          if(isNumber(template.charAt(i)) == false)
+          {
+            check2 = true;
+          }
+          else
+          {
+            resultArray[indicator][1] += template.charAt(i);
+            i++;
+          }
+        }
+        i-=1;
+      }
+      else if(template.charAt(i) == 'X')
+      {
+        resultArray[indicator][1] = "1";
+      }
+      else if(isNumber(template.charAt(i)) == true)
+      {
+        resultArray[indicator][0] += template.charAt(i);
+      }
+      else if(isSign(template.charAt(i))==true)
+      {
+        resultArray[indicator][0] += template.charAt(i);
+        resultArray[indicator][1] = "sign";
+      }
+      else if(template.charAt(i) == " ")
+      {
+        indicator +=1;
+        resultArray[indicator] = [];
+      }
+
+      //end loop condition;
+      if(template.charAt(i) == "(" || template.charAt(i) == ")")
+      {
+        check = true;
+      }
+      i++;
+    }
+
+    // eger powerOfX i undefindsa, 1inci elemente "0" ata.
+    for(var j = 0; j < resultArray.length ; j++)
+    {
+      if(resultArray[j][1] == "")
+      {
+        resultArray[j][1] = "0";
+      }
+    }
+
+    resultArray[resultArray.length] = i;
+    return resultArray;
 }
 
 function questionToMathML(expression)
 {
   //  question = "(((5x^2 + 13x) + (6x / 5x)) + ((8$4x + 5$1x) * (3x^2 / 5))) / (((15x^2 / 1) - (5x - 4)) * ((14x / 6$2) / (13x + 2$5)))";
   var output = '<math xmlns="http://www.w3.org/1998/Math/MathML">';
-  var expressions = calculationsOrder(expression);
+  var expressions = calculationsOrder1(expression);
   var expressionsMathML = [];
 
 
@@ -1498,245 +1482,126 @@ function mathmlForpCount1(string)
     return result;
 }
 
-function answerToMathML(string)
-{
-  var output = '<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow>';
-  //((8X^2 + 2X) / (14/9X^2)) = (36/7 + 9$7X^-1)
-  for (var i = 0; i < string.length; i++)
-  {
-    if(string.charAt(i) == "(")
-    {
-      output += '<mfenced><mrow>';
-    }
-    else if(string.charAt(i) == ")")
-    {
-      output += '</mrow></mfenced>';
-    }
-    else if(isNumber(string.charAt(i)) == true)
-    {
-      var arr = getNumber(string,i);
-      while(string.charAt(i) != ')')
-      {
-        i++;
-      }
-      i--;
-
-      for(var j = 0 ; j < arr.length-1 ; j++)
-      {
-        if(j%2 == 0)//if it is a number
-        {
-          arr[j][0] = symbolToReal(arr[j][0]);
-          if(arr[j][0].indexOf('/') != -1)//if it includes a $
-          {
-            var temp1 = arr[j][0].substring(0,arr[j][0].indexOf('/'));
-            var temp2 = arr[j][0].substring(arr[j][0].indexOf('/') + 1, arr[j][0].length);
-            output += '<mrow><mfrac><mrow><mn>' + temp1 + '</mn></mrow><mrow><mn>' + temp2 + '</mn></mrow></mfrac></mrow>';
-          }
-          else//IF IT DOESNT INCLUDES DIVISION
-          {
-            output += '<mrow><mn>' + arr[j][0] + '</mn></mrow>';
-          }
-
-          // to assign X --------------------------------------------------------------------------------
-
-          if(arr[j][1] != '0')//if x has a power
-          {
-            if(arr[j][1] == '1')//adding power of x
-            {
-              output += '<mi>x</mi>';
-            }
-            else// adding power of x
-            {
-              output += '<msup><mi>x</mi><mn>'+ symbolToReal(arr[j][1]) +'</mn></msup>';
-              //<msup><mi>b</mi><mn>2</mn></msup>
-            }
-          }
-        }
-        else// it it is a sign
-        {
-          if (arr[j][0] == '/')
-          {
-            arr[j][0] = '&divide;'
-          }
-          if (arr[j][0] == '/')
-          {
-            arr[j][0] = '&#215;'
-          }
-          output += '<mo>'+ arr[j][0] +'</mo>';
-        }
-      }
-    }
-    else if(isSign(string.charAt(i)) == true)
-    {
-      if (arr[j][0] == '/')
-      {
-        output += '<mo>&divide;</mo>';
-      }
-      else if (arr[j][0] == '/')
-      {
-        output += '<mo>&#215;</mo>';
-      }
-      else
-      {
-        output += '<mo>' + string.charAt(i) + '</mo>';
-      }
-    }
-    else if(string.charAt(i) != ' ')
-    {
-      output += '<mi>' + string.charAt(i) + '</mi>';
-    }
-  }8
-  output += '</mrow></math>';
-  return output;
-}
-
-function getSign()
+function selectSign()
 {
   var sign = "";
-  var choice = Math.floor(Math.random() * 4); // 0 - 3 inclusive
-  switch (choice) {
-  case 0:
-    sign = "+";
-    break;
-  case 1:
-    sign = "-";
-    break;
-  case 2:
-    sign = "*";
-    break;
-  case 3:
-    sign = "/";
-    break;
+  var choice = (Math.floor(Math.random() * 4)); // 0 to 4
+  switch (choice)
+  {
+    case 0:
+      sign = "+";
+      break;
+    case 1:
+      sign = "-";
+      break;
+    case 2:
+      sign = "/";
+      break;
+    case 3:
+      sign = "*";
+      break;
   }
   return sign;
 }
 
-function getCoefficient()
+function selectCoefficient()
 {
-  var coefficient = "";
-  var choice = Math.floor(Math.random() * 14); // 0 - 13 inclusive
+	var option = Math.floor(Math.random() * 7); // 0 to 3
+	var coefficient;
+	switch(option)
+	{
+		case 0:
+			coefficient = "(N S N)";
+		break;
 
-  switch (choice) {
-  case 0:
-    coefficient = "Nx - Nx";
-    break;
-  case 1:
-    coefficient = "Nx + N";
-    break;
-  case 2:
-    coefficient= "Nx - N";
-    break;
-  case 3:
-    coefficient = "Nx * N";
-    break;
-  case 4:
-    coefficient = "Nx + Nx";
-    break;
-  case 5:
-    coefficient = "Nx + Nx";
-    break;
-  case 6:
-    coefficient = "Nx * Nx";
-    break;
-  case 7:
-    coefficient = "Nx^2 + Nx";
-    break;
-  case 8:
-    coefficient = "Nx^2 - Nx";
-    break;
-  case 9:
-    coefficient = "Nx / Nx";
-    break;
-  case 10:
-    coefficient = "Nx / N";
-    break;
-  case 11:
-    coefficient = "N / N";
-    break;
-  case 12:
-    coefficient = "Nx^2 / Nx";
-    break;
-  case 13:
-    coefficient = "Nx^2 / N";
-    break;
-  }
+		case 1:
+			coefficient = "((N S N) S  (N S N))";
+		break;
 
-  for(var i = 0 ; i < coefficient.length ; i++)
-  {
-    if(coefficient.charAt(i) == 'N')
+		case 2:
+			coefficient = "(N S N)";
+		break;
+
+		case 3:
+			coefficient = "((N S N) S (N S N))";
+		break;
+
+		case 4:
+			coefficient = "((N S N) S (N S N))";
+		break;
+
+		case 5:
+			coefficient = "(((N S N) S (N S N)) S (N S N))";
+		break;
+
+		case 6:
+			coefficient = "((N S N) S ((N S N) S (N S N)))";
+		break;
+	}
+
+	var newCoefficient = "";
+	for(var i = 0 ; i < coefficient.length ; i++)
+	{
+    var number = (Math.floor(Math.random() * 15)) + 1;
+    number = number.toString();
+		if (coefficient.charAt(i) == 'N')
+		{
+			newCoefficient =newCoefficient + number;
+		}
+    else if(coefficient.charAt(i) == 'S')
     {
-      var isInt = Math.floor(Math.random() * 10);
-      if (isInt < 3) //30 percent change of having a numberator and denominator, not being a whole number
-      {
-        var temp1 = Math.floor(Math.random() * 10)+1;
-        var temp2 = Math.floor(Math.random() * 5)+1;
-        var ss =  temp1.toString() + '$' + temp2.toString();
-      }
-      else //70 percent change of being an whole number
-      {
-        var temp = Math.floor(Math.random() * 15)+1;
-        var ss = temp.toString();
-      }
-      coefficient = coefficient.slice(0, i) + ss + coefficient.slice(i+1, coefficient.length);
-    }// fix this - problem with substring function ....
-  }
-
-  return coefficient;
-}
-
-function getTemplate()
-{
-  var template = "";
-  var choice = Math.floor(Math.random() * 6);
-  switch (choice) {
-  case 0:
-    template = "(C) S (C)";
-    break;
-  case 1:
-    template = "((C) S (C)) S (C)";
-    break;
-  case 2:
-    template = "(C) S ((C) S (C))";
-    break;
-  case 3:
-    template = "(((C) S (C)) S ((C) S (C))) S ((C) S (C))";
-    break;
-  case 4:
-    template = "((C) S (C)) S (((C) S (C)) S ((C) S (C)))";
-    break;
-  case 5:
-    template = "(((C) S (C)) S ((C) S (C))) S (((C) S (C)) S ((C) S (C)))";
-    break;
-  }
-  return template;
-}
-
-function generateQuestion()
-{
-  //for(var j=0;j<300;j++)
-  //{
-    var question = getTemplate();
-    for(var i = 0 ; i < question.length ; i++)
-    {
-      if(question.charAt(i) == 'C')
-      {
-        question = question.slice(0, i) + getCoefficient() + question.slice(i+1 , question.length);
-      }
-      if(question.charAt(i) == 'S')
-      {
-        question = question.slice(0, i) + getSign() + question.slice(i+1 , question.length);
-      }
+      newCoefficient =newCoefficient + selectSign();
     }
-  /*  cevap=solvedQuestion(question);*/
-  /*
-   $.ajax({
-        type        : "GET", //GET or POST or PUT or DELETE verb
-        url         : "asd.php", // Location of the service
-    data        : {"qtext":question} //Data sent to server
+		else
+		{
+		newCoefficient = newCoefficient + coefficient.charAt(i);
+		}
+	}
+	return newCoefficient;
+}
 
+function selectTemplate1()
+{
+	var option = Math.floor(Math.random() * 3); // 0 to 2
+	var template;
 
-    });
-  */
-  //}
-  return question;
+	switch(option)
+	{
+		case 0:
+			template = "Ax + By = C";
+		break;
+
+		case 1:
+			template = "Ax + C = By";
+		break;
+
+		case 2:
+			template = "C + By = Ax";
+		break;
+	}
+
+	return template;
+}
+
+function selectTemplate2()
+{
+	var option = Math.floor(Math.random() * 3); // 0 to 2
+	var template;
+
+	switch(option)
+	{
+		case 0:
+			template = "Dx + Ey = F";
+		break;
+
+		case 1:
+			template = "Dx + F = Ey";
+		break;
+
+		case 2:
+			template = "F + Ey = Dx";
+		break;
+	}
+
+	return template;
 }
