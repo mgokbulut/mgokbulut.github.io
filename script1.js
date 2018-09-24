@@ -453,7 +453,7 @@ function setup()
     }
   }
   question = '(' + question + ')';
-  document.getElementById('questionText3').innerHTML = question;
+  //document.getElementById('questionText3').innerHTML = question;
   //question = "((((5$12x^2 / 13$2x) / (6x / 5x)) + ((8$4x + 5$1x) * (3x^2 / 5))) / (((15x^2 / 1) - (5x - 4)) * ((14x / 6$2) / (13x + 2$5))))";
   question = question.replace(/x/g,"X");
 
