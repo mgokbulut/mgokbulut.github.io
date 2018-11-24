@@ -233,7 +233,7 @@ function setup()
   var e_mathml = questionToMathML(defANDnewtemplate2.e);
   e_mathml=e_mathml.replace('<math xmlns="http://www.w3.org/1998/Math/MathML">','');
   e_mathml=e_mathml.replace('</math>','');
-  steps.directPush("for the last bit:");
+  steps.directPush("for the constant:");
   simplifyCoefficient(defANDnewtemplate2.f);
   var f_mathml = questionToMathML(defANDnewtemplate2.f);
   f_mathml=f_mathml.replace('<math xmlns="http://www.w3.org/1998/Math/MathML">','');
